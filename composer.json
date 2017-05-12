@@ -24,6 +24,8 @@
     },
     "require": {
         "pimple/pimple": "^3.0",
-        "twig/twig": "^2.3"
+        "twig/twig": "^2.3",
+        "blackfire/php-sdk": "^1.7",
+        "phpunit/phpunit": "^6.1"
     }
 }
