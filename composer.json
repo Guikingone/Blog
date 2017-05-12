@@ -1,0 +1,19 @@
+{
+    "name": "guillaume/home-website",
+    "description": "The source code of the projet V as asked in the DA PHP/Sf path at OpenClassrooms",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Guillaume Loulier",
+            "email": "contact@guillaumeloulier.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "etc/",
+            "Core\\": "src/"
+        }
+    },
+    "require": {}
+}
