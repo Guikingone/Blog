@@ -3,11 +3,11 @@
 namespace Core\Action;
 
 /**
- * Class HomeAction
+ * Class ContactAction
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-class HomeAction
+class ContactAction
 {
 
 }

@@ -24,6 +24,14 @@ class Kernel
     private $services;
 
     /**
+     * Kernel constructor.
+     */
+    public function __construct()
+    {
+        $this->build();
+    }
+
+    /**
      * Allow to build the Kernel and load the different dependencies needed
      * for the core to boot.
      */
@@ -65,5 +73,13 @@ class Kernel
     public function loadActions()
     {
 
+    }
+
+    /**
+     * Allow to handle the actual request.
+     */
+    public function handleRequest()
+    {
+        $this->router->dispatch();
     }
 }

@@ -12,18 +12,24 @@ class Router
     /** @var array */
     private $routes;
 
-    public function __construct()
-    {
-        $this->loadRoutes();
-    }
-
+    /**
+     * Load every routes.
+     */
     public function loadRoutes()
     {
         $this->routes = require __DIR__.'./config/routes.php';
+    }
 
+    /**
+     * Dispatch the response as asked by the request.
+     *
+     * @return mixed
+     */
+    public function dispatch()
+    {
         foreach ($this->routes as $route) {
-            switch ($route) {
-                case $route['path'] === $_SERVER['REQUEST_URI']:
+            switch ($_SERVER['REQUEST_URI']) {
+                case $_SERVER['REQUEST_URI'] === $route['path']:
                     return new $route['action'];
                     break;
             }
