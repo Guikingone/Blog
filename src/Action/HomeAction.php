@@ -9,9 +9,14 @@ namespace Core\Action;
  */
 class HomeAction
 {
-    public function __construct()
-    {
+    private $templating;
 
+    private $responder;
+
+    public function __construct($templating, $responder)
+    {
+        $this->templating = $templating;
+        $this->responder = $responder;
     }
 
     public function __invoke()

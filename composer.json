@@ -15,5 +15,15 @@
             "Core\\": "src/"
         }
     },
-    "require": {}
+    "autoload-dev": {
+        "psr-4": {
+            "App\\": "etc/",
+            "Core\\": "src/",
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "pimple/pimple": "^3.0",
+        "twig/twig": "^2.3"
+    }
 }
