@@ -3,6 +3,7 @@
 namespace App;
 
 use Pimple\Container;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Class Kernel
@@ -29,6 +30,7 @@ class Kernel
     public function __construct()
     {
         $this->build();
+        $this->loadServices();
     }
 
     /**
@@ -50,7 +52,7 @@ class Kernel
         if (!empty($this->parameters)) {
             return;
         }
-        $this->parameters = require __DIR__ . './config/parameters.php';
+        $this->parameters = require __DIR__ . '/config/parameters.php';
     }
 
     public function loadServices()
@@ -72,7 +74,14 @@ class Kernel
 
     public function loadActions()
     {
+        $classes = [];
 
+        $finder = new Finder();
+        try {
+            $finder->in(__DIR__.'../src/Action')->files()->name('*Action.php');
+        } catch(\InvalidArgumentException $e) {
+            $e->getMessage();
+        }
     }
 
     /**

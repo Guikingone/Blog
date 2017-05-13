@@ -26,6 +26,8 @@
         "pimple/pimple": "^3.0",
         "twig/twig": "^2.3",
         "blackfire/php-sdk": "^1.7",
-        "phpunit/phpunit": "^6.1"
+        "phpunit/phpunit": "^6.1",
+        "symfony/var-dumper": "^3.2",
+        "symfony/finder": "^3.2"
     }
 }

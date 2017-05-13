@@ -9,5 +9,15 @@ namespace Core\Action;
  */
 class HomeAction
 {
+    private $responder;
 
+    public function __construct($responder)
+    {
+        $this->responder = $responder;
+    }
+
+    public function __invoke()
+    {
+        return $this->responder;
+    }
 }
