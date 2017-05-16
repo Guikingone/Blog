@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Blog project.
+ *
+ * (c) Guillaume Loulier <contact@guillaumeloulier.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App;
 
 use Pimple\Container;
@@ -49,6 +58,10 @@ class Kernel
             return;
         }
         $this->container = new Container();
+        $this->loadActions();
+        $this->loadResponders();
+        $this->loadManagers();
+        $this->loadServices();
 
         if ($this->router instanceof Router) {
             return;
