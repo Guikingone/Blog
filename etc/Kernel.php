@@ -12,7 +12,6 @@
 namespace App;
 
 use Pimple\Container;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Class Kernel
@@ -45,7 +44,6 @@ class Kernel
     public function __construct()
     {
         $this->build();
-        $this->loadServices();
     }
 
     /**
@@ -58,9 +56,7 @@ class Kernel
             return;
         }
         $this->container = new Container();
-        $this->loadActions();
-        $this->loadResponders();
-        $this->loadManagers();
+
         $this->loadServices();
 
         if ($this->router instanceof Router) {
@@ -72,67 +68,59 @@ class Kernel
             return;
         }
         $this->parameters = require __DIR__ . '/config/parameters.php';
+
+        if (!empty($this->services)) {
+            return;
+        }
+        $this->services = require __DIR__.'/config/services.php';
     }
 
     /**
-     * Allow to load every Actions registered into the Action folder.
-     *
-     * @throws \ReflectionException
+     * Allow to load all the services defined via the services.php file.
      */
-    public function loadActions()
-    {
-        $finder = new Finder();
-        try {
-            $finder->in(__DIR__.'../src/Action')->files()->name('*Action.php');
-        } catch(\InvalidArgumentException $e) {
-            $e->getMessage();
-        }
-
-        foreach ($finder as $file) {
-            $class = new \ReflectionClass($file->getFilename());
-            $args = $class->getConstructor()->getParameters();
-
-            foreach ($args as $parameter) {
-                if (array_key_exists($parameter, $this->responders)) {
-                    $argument = new $this->responders[$parameter];
-                    $this->actions[$class->getName()] = $class->newInstanceArgs($argument);
-                }
-            }
-        }
-    }
-
-    public function loadResponders()
-    {
-        $finder = new Finder();
-        try {
-            $finder->in(__DIR__.'../src/Responders')->files()->name('*Responder.php');
-        } catch(\InvalidArgumentException $e) {
-            $e->getMessage();
-        }
-    }
-
-    public function loadManagers()
-    {
-        $finder = new Finder();
-        try {
-            $finder->in(__DIR__.'../src/Managers')->files()->name('*Manager.php');
-        } catch(\InvalidArgumentException $e) {
-            $e->getMessage();
-        }
-    }
-
     public function loadServices()
     {
         $this->services = require __DIR__ . '/config/services.php';
 
+        // Store the services arguments.
+        $arguments = [];
+
         foreach ($this->services as $service) {
             $class = new \ReflectionClass($service['class']);
+            $args = $class->getConstructor()->getParameters();
+
+            foreach ($service['arguments'] as $argument) {
+                $arguments[] = new \ReflectionClass($argument);
+            }
+
+            foreach ($arguments as $argument) {
+                $this->container[$argument->getName()] = function ($c) {
+                  return new $c;
+                };
+            }
+
+            if ($args) {
+                foreach ($args as $arg) {
+
+                    /** @var $argument */
+                    foreach ($argument as $classes) {
+                        if ($arg instanceof $classes) {
+                            $reflectionClass = new $classes();
+                            $this->container[$class->getName()] = function ($c) {
+                                /** @var $reflectionClass */
+                                return new $c($c[$reflectionClass]);
+                            };
+                        }
+                    }
+                }
+            }
+
             $this->container[$class->getName()] = function ($c) {
                 return new $c;
             };
         }
 
-        $this->container['templating'] = function () {
+        $this->container['twig'] = function () {
             $loader = new \Twig_Loader_Filesystem([$this->parameters['views_folder']]);
             return new \Twig_Environment($loader);
         };

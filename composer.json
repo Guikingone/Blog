@@ -28,6 +28,7 @@
         "blackfire/php-sdk": "^1.7",
         "phpunit/phpunit": "^6.1",
         "symfony/var-dumper": "^3.2",
-        "symfony/finder": "^3.2"
+        "symfony/finder": "^3.2",
+        "symfony/form": "^3.2"
     }
 }

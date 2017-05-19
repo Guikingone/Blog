@@ -19,7 +19,7 @@ namespace App;
 class Router
 {
     /** @var array */
-    private $routes;
+    protected $routes;
 
     /**
      * Router constructor.

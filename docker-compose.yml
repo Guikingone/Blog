@@ -1,9 +1,14 @@
 version: "3.1"
 
 services:
-    nginx:
-        image: httpd:latest
+    apache:
+        build: './docker/apache'
         ports:
             - "9800:80"
         volumes:
-            - .:/usr/local/apache2/htdocs/blog
+            - '.:/usr/local/apache2/htdocs'
+        depends_on:
+            - php
+
+    php:
+        build: './docker/php'

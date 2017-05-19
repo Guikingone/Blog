@@ -9,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
-return [
-    'app.article_manager' => [
-        'class' => \Core\Managers\ArticlesManager::class,
-        'arguments' => [
-            \Core\Services\DBFactory::class,
-            \Symfony\Component\Form\FormFactory::class
-        ]
-    ]
-];
+namespace Core\Services;
+
+/**
+ * Class DBFactory
+ *
+ * @author Guillaume Loulier <contact@guillaumeloulier.fr>
+ */
+class DBFactory
+{
+
+}
